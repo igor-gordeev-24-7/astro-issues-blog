@@ -1,0 +1,53 @@
+---
+// src/pages/about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="О проекте | Astro Issues Blog">
+  <header slot="header">
+    <div class="container">
+      <h1>О проекте</h1>
+    </div>
+  </header>
+  
+  <div class="container">
+    <article class="content">
+      <h2>Что это такое?</h2>
+      <p>Это блог, созданный на Astro, где статьи хранятся в виде Issues в GitHub репозитории.</p>
+      
+      <h2>Как это работает?</h2>
+      <ol>
+        <li>Создаете Issue в GitHub репозитории</li>
+        <li>Добавляете метку "published"</li>
+        <li>Система автоматически публикует статью на сайте</li>
+      </ol>
+    </article>
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+@import '../styles/variables';
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+}
+
+.content {
+  padding: $spacing-xl 0;
+  
+  h2 {
+    margin: $spacing-lg 0 $spacing-md;
+  }
+  
+  ol {
+    padding-left: $spacing-lg;
+    margin: $spacing-md 0;
+    
+    li {
+      margin-bottom: $spacing-sm;
+    }
+  }
+}
+</style>

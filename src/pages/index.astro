@@ -1,0 +1,255 @@
+---
+// src/pages/index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/main.scss';
+---
+
+<BaseLayout title="Главная | Astro Issues Blog">
+  
+  <header slot="header" class="page-header">
+    <div class="container">
+      <h1 class="page-title">Astro Issues Blog</h1>
+      <p class="page-subtitle">Блог на Astro с использованием GitHub Issues как CMS</p>
+      
+      <button class="theme-toggle" aria-label="Переключить тему">
+        <i>🌙</i>
+      </button>
+    </div>
+  </header>
+  
+  <div class="container">
+    <section class="hero-section">
+      <div class="hero-content">
+        <h2>Добро пожаловать!</h2>
+        <p>Это демонстрационный сайт блога, где статьи хранятся как Issues в GitHub репозитории.</p>
+        
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">0</span>
+            <span class="stat-label">статей</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">0</span>
+            <span class="stat-label">категорий</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">0</span>
+            <span class="stat-label">авторов</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="latest-articles">
+      <h2>Последние статьи</h2>
+      <div class="articles-list">
+        <div class="empty-state">
+          <p>Статей пока нет. Создайте первую статью в GitHub Issues!</p>
+          <a href="#" class="button">Как добавить статью →</a>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <footer slot="footer" class="page-footer">
+    <div class="container">
+      <p>© 2024 Astro Issues Blog. Все статьи хранятся в GitHub Issues.</p>
+      <nav class="footer-nav">
+        <a href="/about">О проекте</a>
+        <a href="/contact">Контакты</a>
+        <a href="https://github.com/yourusername/astro-issues-blog" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+</BaseLayout>
+
+<style lang="scss">
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+  
+  @include desktop {
+    padding: 0 $spacing-lg;
+  }
+}
+
+.page-header {
+  background: var(--header-background);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  padding: $spacing-lg 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  
+  .container {
+    @include flex-between;
+  }
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: $spacing-xs;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.theme-toggle {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: $spacing-sm $spacing-md;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: all $transition-normal;
+  
+  &:hover {
+    background: var(--background-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.hero-section {
+  padding: $spacing-xxl 0;
+  text-align: center;
+  
+  h2 {
+    font-size: 2.5rem;
+    margin-bottom: $spacing-md;
+    
+    @include mobile {
+      font-size: 2rem;
+    }
+  }
+  
+  p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto $spacing-xl;
+  }
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-xxl;
+  flex-wrap: wrap;
+  
+  .stat-item {
+    @include flex-column;
+    align-items: center;
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+  
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.latest-articles {
+  padding: $spacing-xl 0;
+  
+  h2 {
+    font-size: 2rem;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.articles-list {
+  display: grid;
+  gap: $spacing-lg;
+  
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: $spacing-xxl;
+  background: var(--surface-color);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--border-color);
+  
+  p {
+    color: var(--text-secondary);
+    margin-bottom: $spacing-lg;
+    font-size: 1.125rem;
+  }
+}
+
+.button {
+  display: inline-block;
+  padding: $spacing-sm $spacing-lg;
+  background: var(--primary-color);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all $transition-normal;
+  
+  &:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    text-decoration: none;
+  }
+}
+
+.page-footer {
+  margin-top: $spacing-xxl;
+  padding: $spacing-xl 0;
+  background: var(--footer-background);
+  border-top: 1px solid var(--border-color);
+  
+  .container {
+    @include flex-between;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    
+    @include mobile {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+}
+
+.footer-nav {
+  display: flex;
+  gap: $spacing-lg;
+  
+  a {
+    color: var(--text-secondary);
+    
+    &:hover {
+      color: var(--link-color);
+    }
+  }
+}
+</style>

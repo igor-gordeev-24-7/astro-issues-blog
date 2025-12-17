@@ -1,0 +1,112 @@
+---
+// src/layouts/BaseLayout.astro
+
+// Получаем props
+const { title, description, canonical } = Astro.props;
+
+// Значения по умолчанию
+const pageTitle = title || 'Astro Issues Blog';
+const pageDescription = description || 'Блог на Astro с GitHub Issues как CMS';
+const pageUrl = canonical || Astro.url.pathname;
+const siteUrl = Astro.site || 'https://example.com';
+
+// Формируем URL для изображения
+const ogImageUrl = new URL('/images/og-image.jpg', siteUrl).toString();
+const canonicalUrl = new URL(pageUrl, siteUrl).toString();
+---
+
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Основные метатеги -->
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={ogImageUrl} />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={pageDescription} />
+  
+  <!-- Canonical -->
+  <link rel="canonical" href={canonicalUrl} />
+  
+  <!-- Иконки -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  
+  <!-- Стили -->
+  <link rel="stylesheet" href="/styles/main.css" />
+  
+  <!-- Скрипт для темы -->
+  <script>
+    // Восстанавливаем тему из localStorage
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+</head>
+<body>
+  <!-- Шапка сайта -->
+  <header class="site-header">
+    <slot name="header" />
+  </header>
+  
+  <!-- Основное содержимое -->
+  <main class="site-main">
+    <slot />
+  </main>
+  
+  <!-- Подвал -->
+  <footer class="site-footer">
+    <slot name="footer" />
+  </footer>
+  
+  <!-- Основной скрипт -->
+  <script>
+    // Функция переключения темы
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      // Обновляем кнопку если она существует
+      const themeButton = document.querySelector('.theme-toggle');
+      if (themeButton) {
+        const icon = themeButton.querySelector('i');
+        if (icon) {
+          icon.textContent = newTheme === 'light' ? '🌙' : '☀️';
+        }
+        themeButton.setAttribute('aria-label', 
+          newTheme === 'light' ? 'Переключить на темную тему' : 'Переключить на светлую тему'
+        );
+      }
+    }
+    
+    // Инициализация при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+      // Добавляем обработчик для кнопки темы
+      const themeButton = document.querySelector('.theme-toggle');
+      if (themeButton) {
+        themeButton.addEventListener('click', toggleTheme);
+      }
+      
+      // Плавное появление контента
+      document.body.classList.add('loaded');
+    });
+  </script>
+</body>
+</html>
